@@ -4,10 +4,20 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Coinfluence — The Social Coin Jar</title>
-<style>
+<!-- Firebase SDK -->
+<script type="module" src="firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<!-- Stripe -->
+<script src="https://js.stripe.com/v3/"></script>
+  <style>
   :root{
     --bg:#0f1720; --card:#111827; --accent:#f9c74f;
     --jar-border: rgba(255,255,255,0.06);
+    --success: #10b981;
+    --danger: #ef4444;
+    --info: #3b82f6;
   }
   *{box-sizing:border-box}
   body{
@@ -70,7 +80,24 @@
   .counter{margin-left:auto; background:rgba(255,255,255,0.02); padding:8px 12px; border-radius:8px; font-weight:700}
   .small{font-size:13px; color:#b9c6d6}
   .note{margin-top:10px; font-size:13px; color:#9fb0c6}
-  .toast{position:fixed; right:20px; bottom:20px; background:rgba(0,0,0,0.7); padding:10px 14px; border-radius:8px; color:#fff}
+  .toast{position:fixed; right:20px; bottom:20px; background:rgba(0,0,0,0.8); padding:12px 18px; border-radius:8px; color:#fff; z-index:1000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);}
+  .toast.success{background: var(--success);}
+  .toast.error{background: var(--danger);}
+  .toast.info{background: var(--info);}
+  .leaderboard {background: rgba(255,255,255,0.02); border-radius: 8px; padding: 12px; margin-top: 16px;}
+  .leaderboard h3 {margin: 0 0 8px; font-size: 14px; color: #e6eef8;}
+  .leaderboard ol {padding-left: 20px; margin: 0;}
+  .leaderboard li {margin: 4px 0; font-size: 13px;}
+  .leaderboard .highlight {color: var(--accent); font-weight: 600;}
+  .progress-bar {height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin: 8px 0; overflow: hidden;}
+  .progress {height: 100%; background: var(--accent); width: 0%; transition: width 0.3s ease;}
+  .timing-display {text-align: center; font-size: 12px; margin-top: 4px; color: #9fb0c6;}
+  .tip-button {background: linear-gradient(135deg, #6b46c1 0%, #8b5cf6 100%) !important; border: none !important;}
+  .game-area {position: relative; margin-bottom: 16px;}
+  .target-zone {height: 100px; background: rgba(249, 199, 79, 0.1); border: 2px dashed var(--accent); border-radius: 8px; margin: 12px 0; position: relative;}
+  .sweet-spot {position: absolute; height: 20px; width: 40px; background: var(--accent); top: 40px; left: 50%; transform: translateX(-50%); border-radius: 4px;}
+  .sweet-spot::before {content: 'SWEET SPOT'; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 10px; color: var(--accent); white-space: nowrap;}
+  .coin-cursor {position: absolute; width: 40px; height: 40px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23f9c74f"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>') no-repeat center; pointer-events: none; z-index: 100; display: none;}
   @media (max-width:700px){
     .layout{flex-direction:column}
     .left{width:100%}
@@ -100,10 +127,34 @@
         <div class="note">Drop coins, stack them, or flip to gamble — coins persist in your browser.</div>
       </div>
       <div class="right">
-        <div class="small"><strong>How it works</strong></div>
-        <p class="small">Press <em>Drop coin</em> to add one coin to the jar. Press <em>Flip 1</em> to bet one coin: <strong>heads doubles</strong>, <strong>tails loses</strong> it. Coins are stored in localStorage.</p>
-        <div style="height:12px"></div>
-        <div class="small"><strong>Presentation tip:</strong> Show the stacking, refresh to show persistence, flip for drama.</div>
+        <div class="game-area">
+          <div class="target-zone" id="targetZone">
+            <div class="sweet-spot"></div>
+          </div>
+          <div class="progress-bar">
+            <div class="progress" id="flipProgress"></div>
+          </div>
+          <div class="timing-display" id="timingDisplay">Press SPACE when the bar is in the sweet spot!</div>
+        </div>
+        
+        <div class="controls">
+          <button id="dropBtn">Drop Coin (SPACE)</button>
+          <button id="flipBtn" disabled>Flip (SPACE)</button>
+          <button id="tipBtn" class="tip-button">Tip Jar 💰</button>
+          <div class="counter" id="counter">0</div>
+        </div>
+        
+        <div class="leaderboard">
+          <h3>🏆 Top Players</h3>
+          <ol id="leaderboardList">
+            <li>Loading leaderboard...</li>
+          </ol>
+        </div>
+        
+        <div class="note">
+          <strong>How to play:</strong> Press SPACE when the moving bar is in the yellow zone to win coins!
+          Compete with others in real-time and support the game with tips.
+        </div>
       </div>
     </div>
   </div>
