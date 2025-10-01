@@ -1,6 +1,6 @@
 # Coinfluence — The Social Coin Jar
 
-Coinfluence is a tiny web app that turns virtual coins into playful interactions. Drop coins into a jar, watch them stack with satisfying animation, and flip coins to gamble and win — perfect for quick demos and hackathon submissions.
+Coinfluence is a tiny web app that turns virtual coins into playful interactions. Drop coins into a jar, watch them stack with satisfying animation, and flip coins to gamble and win.
 
 ## Tech
 - Vanilla HTML / CSS / JavaScript
