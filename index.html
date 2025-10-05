@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Gambler - Play & Win Big!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Auth Screen -->
+        <div id="auth-screen" class="screen">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <i class="fas fa-coins logo"></i>
+                    <h1>Coin Gambler</h1>
+                    <p>Play exciting coin games and win big!</p>
+                </div>
+                <div class="auth-tabs">
+                    <button class="tab-btn active" data-tab="login">Login</button>
+                    <button class="tab-btn" data-tab="register">Register</button>
+                </div>
+                
+                <!-- Login Form -->
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <input type="email" id="login-email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="login-password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="register-form" class="auth-form hidden">
+                    <div class="form-group">
+                        <input type="text" id="register-username" placeholder="Username" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="register-email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="register-password" placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </form>
+                <div id="auth-message" class="auth-message"></div>
+            </div>
+        </div>
+
+        <!-- Main App (initially hidden) -->
+        <div id="main-app" class="screen hidden">
+            <header class="app-header">
+                <div class="container">
+                    <div class="logo">
+                        <i class="fas fa-coins"></i>
+                        <span>Coin Gambler</span>
+                    </div>
+                    <nav class="main-nav">
+                        <button id="home-btn" class="nav-btn active" title="Home">
+                            <i class="fas fa-home"></i>
+                            <span>Home</span>
+                        </button>
+                        <button id="games-btn" class="nav-btn" title="Games">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Games</span>
+                        </button>
+                        <button id="shop-btn" class="nav-btn" title="Shop">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Shop</span>
+                        </button>
+                        <button id="leaderboard-btn" class="nav-btn" title="Leaderboard">
+                            <i class="fas fa-trophy"></i>
+                            <span>Leaderboard</span>
+                        </button>
+                        <button id="achievements-btn" class="nav-btn" title="Achievements">
+                            <i class="fas fa-trophy-star"></i>
+                            <span>Achievements</span>
+                        </button>
+                        <button id="profile-btn" class="nav-btn" title="Profile">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </button>
+                        <button id="logout-btn" class="nav-btn" title="Logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </button>
+                    </nav>
+                    <div class="user-info">
+                        <span id="user-balance">$0.00</span>
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="app-content">
+                <div class="container">
+                    <!-- Home Screen -->
+                    <div id="home-screen">
+                        <div class="hero">
+                            <h1>Welcome to Coin Gambler!</h1>
+                            <p>Test your luck with our exciting coin games</p>
+                            <div class="cta-buttons">
+                                <button id="play-now-btn" class="btn btn-primary">Play Now</button>
+                                <button class="btn btn-secondary">Learn More</button>
+                            </div>
+                        </div>
+                        
+                        <section class="featured-games">
+                            <h2>Featured Games</h2>
+                            <div class="game-cards">
+                                <div class="game-card" data-game="coinflip">
+                                    <i class="fas fa-coins"></i>
+                                    <h3>Coin Flip</h3>
+                                    <p>Heads or Tails? 50/50 chance to double your bet!</p>
+                                    <button class="btn btn-small">Play Now</button>
+                                </div>
+                                <div class="game-card" data-game="dice">
+                                    <i class="fas fa-dice"></i>
+                                    <h3>Dice Roll</h3>
+                                    <p>Roll the dice and win up to 6x your bet!</p>
+                                    <button class="btn btn-small">Play Now</button>
+                                </div>
+                                <div class="game-card" data-game="slots">
+                                    <i class="fas fa-sliders-h"></i>
+                                    <h3>Slots</h3>
+                                    <p>Spin to win with our coin-themed slots!</p>
+                                    <button class="btn btn-small">Play Now</button>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Games Screen -->
+                    <div id="games-screen" class="hidden">
+                        <h1>Choose Your Game</h1>
+                        <div class="games-grid">
+                            <div class="game-option" data-game="coinflip">
+                                <div class="game-icon">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                                <h3>Coin Flip</h3>
+                                <p>Heads or Tails? 2x Payout</p>
+                            </div>
+                            <div class="game-option" data-game="dice">
+                                <div class="game-icon">
+                                    <i class="fas fa-dice"></i>
+                                </div>
+                                <h3>Dice Roll</h3>
+                                <p>Roll the dice, win up to 6x</p>
+                            </div>
+                            <div class="game-option" data-game="slots">
+                                <div class="game-icon">
+                                    <i class="fas fa-sliders-h"></i>
+                                </div>
+                                <h3>Slots</h3>
+                                <p>Spin to win big!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Screen -->
+                    <div id="profile-screen" class="hidden">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h1 id="profile-username">Username</h1>
+                            <p id="profile-email">user@example.com</p>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h3>Balance</h3>
+                                <p id="profile-balance">$0.00</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Games Played</h3>
+                                <p id="games-played">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Games Won</h3>
+                                <p id="games-won">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Total Won</h3>
+                                <p id="total-won">$0.00</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Total Lost</h3>
+                                <p id="total-lost">$0.00</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Member Since</h3>
+                                <p id="member-since">-</p>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <button id="deposit-btn" class="btn btn-primary">Deposit</button>
+                            <button id="withdraw-btn" class="btn btn-secondary">Withdraw</button>
+                        </div>
+                    </div>
+
+                    <!-- Game Screens -->
+                    <!-- Coin Flip Game -->
+                    <div id="coinflip-game" class="game-screen hidden">
+                        <div class="game-header">
+                            <h1>Coin Flip</h1>
+                            <p>Choose Heads or Tails to double your bet!</p>
+                        </div>
+                        
+                        <div class="game-content">
+                            <div class="coin" id="coin">
+                                <div class="side heads">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                                <div class="side tails">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="bet-controls">
+                                <div class="bet-amount">
+                                    <label for="bet-amount">Bet Amount:</label>
+                                    <input type="number" id="bet-amount" min="1" value="10">
+                                </div>
+                                
+                                <div class="choice-buttons">
+                                    <button id="heads-btn" class="btn btn-primary">Heads</button>
+                                    <button id="tails-btn" class="btn btn-secondary">Tails</button>
+                                </div>
+                                
+                                <div class="game-stats">
+                                    <p>Last Result: <span id="last-result">-</span></p>
+                                    <p>Win Streak: <span id="win-streak">0</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button id="back-to-games" class="btn btn-small">Back to Games</button>
+                    </div>
+                    
+                    <!-- Dice Game -->
+                    <div id="dice-game" class="game-screen hidden">
+                        <div class="game-header">
+                            <h1>Dice Roll</h1>
+                            <p>Predict the dice outcome and win up to 6x your bet!</p>
+                        </div>
+                        
+                        <div class="game-content">
+                            <div class="dice-container">
+                                <div class="dice" id="dice">
+                                    <div class="face front">1</div>
+                                    <div class="face back">6</div>
+                                    <div class="face right">4</div>
+                                    <div class="face left">3</div>
+                                    <div class="face top">2</div>
+                                    <div class="face bottom">5</div>
+                                </div>
+                                <div id="dice-result" class="dice-result"></div>
+                            </div>
+                            
+                            <div class="bet-controls">
+                                <div class="bet-amount">
+                                    <label for="dice-bet-amount">Bet Amount:</label>
+                                    <input type="number" id="dice-bet-amount" min="1" value="10">
+                                </div>
+                                
+                                <div class="number-selection">
+                                    <label>Select a number (1-6):</label>
+                                    <select id="dice-number">
+                                        <option value="1">1 (6x Payout)</option>
+                                        <option value="2">2 (6x Payout)</option>
+                                        <option value="3">3 (6x Payout)</option>
+                                        <option value="4">4 (6x Payout)</option>
+                                        <option value="5">5 (6x Payout)</option>
+                                        <option value="6">6 (6x Payout)</option>
+                                    </select>
+                                </div>
+                                
+                                <button id="roll-button" class="btn btn-primary">Roll Dice</button>
+                                
+                                <div class="game-stats">
+                                    <p>Last Result: <span id="dice-last-result">-</span></p>
+                                    <p>Win Streak: <span id="dice-win-streak">0</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button id="dice-back-to-games" class="btn btn-small">Back to Games</button>
+                    </div>
+                    
+                    <!-- Slots Game -->
+                    <div id="slots-game" class="game-screen hidden">
+                        <div class="game-header">
+                            <h1>Slots</h1>
+                            <p>Spin the reels and match symbols to win big!</p>
+                        </div>
+                        
+                        <div class="game-content">
+                            <div class="slots-container">
+                                <div class="slots-reel" id="reel1">🍒</div>
+                                <div class="slots-reel" id="reel2">🍒</div>
+                                <div class="slots-reel" id="reel3">🍒</div>
+                            </div>
+                            
+                            <div class="bet-controls">
+                                <div class="bet-amount">
+                                    <label for="slots-bet-amount">Bet Amount:</label>
+                                    <input type="number" id="slots-bet-amount" min="1" value="10">
+                                </div>
+                                
+                                <button id="spin-button" class="btn btn-primary">Spin</button>
+                                
+                                <div class="game-stats">
+                                    <p>Last Result: <span id="slots-last-result">-</span></p>
+                                    <p>Win Streak: <span id="slots-win-streak">0</span></p>
+                                </div>
+                                
+                                <div class="slots-payouts">
+                                    <h3>Payouts:</h3>
+                                    <ul>
+                                        <li>3 of a kind: 5x - 10x bet</li>
+                                        <li>2 of a kind: 2x bet</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button id="slots-back-to-games" class="btn btn-small">Back to Games</button>
+                    </div>
+                    
+                </div>
+            </main>
+            
+            <!-- Achievements Screen -->
+            <div id="achievements-screen" class="screen hidden">
+                <div class="container">
+                    <h1>Your Achievements</h1>
+                    <div class="achievements-grid">
+                        <!-- Achievements will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Leaderboard Screen -->
+            <div id="leaderboard-screen" class="screen hidden">
+                <div class="container">
+                    <h1>Leaderboard</h1>
+                    <div class="leaderboard-tabs">
+                        <button class="tab-btn active" data-tab="all-time">All Time</button>
+                        <button class="tab-btn" data-tab="weekly">This Week</button>
+                        <button class="tab-btn" data-tab="daily">Today</button>
+                    </div>
+                    <div class="leaderboard-container">
+                        <table class="leaderboard-table">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>Net Winnings</th>
+                                    <th>Games Won</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboard-body">
+                                <!-- Leaderboard will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Shop Screen -->
+            <div id="shop-screen" class="screen hidden">
+                <div class="container">
+                    <h1>Shop</h1>
+                    <div class="shop-tabs">
+                        <button class="tab-btn active" data-tab="profile">Profile</button>
+                        <button class="tab-btn" data-tab="powerups">Power-ups</button>
+                        <button class="tab-btn" data-tab="achievements">Special Achievements</button>
+                    </div>
+                    
+                    <div class="shop-categories">
+                        <!-- Profile Items -->
+                        <div class="shop-category" data-category="profile">
+                            <h2>Profile Customization</h2>
+                            <div class="shop-items">
+                                <!-- Profile items will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Power-ups -->
+                        <div class="shop-category hidden" data-category="powerups">
+                            <h2>Power-ups</h2>
+                            <div class="shop-items">
+                                <!-- Power-ups will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Special Achievements -->
+                        <div class="shop-category hidden" data-category="achievements">
+                            <h2>Special Achievements</h2>
+                            <p class="shop-description">Purchase these rare achievements to show off your status!</p>
+                            <div class="shop-items">
+                                <!-- Special achievements will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="app-footer">
+                <div class="container">
+                    <p>&copy; 2023 Coin Gambler. For entertainment purposes only. Must be 18+ to play.</p>
+                    <div class="footer-links">
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Contact Us</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Deposit/Withdraw Modal -->
+    <div id="transaction-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title">Deposit</h2>
+            <div class="form-group">
+                <label for="transaction-amount">Amount ($)</label>
+                <input type="number" id="transaction-amount" min="1" value="10">
+            </div>
+            <div class="form-group">
+                <label for="transaction-method">Payment Method</label>
+                <select id="transaction-method">
+                    <option value="credit">Credit Card</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="crypto">Cryptocurrency</option>
+                </select>
+            </div>
+            <button id="confirm-transaction" class="btn btn-primary">Confirm</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/games/coinflip.js"></script>
+    <script src="js/games/dice.js"></script>
+    <script src="js/games/slots.js"></script>
+    <script src="js/features.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
