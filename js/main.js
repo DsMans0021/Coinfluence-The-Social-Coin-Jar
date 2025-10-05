@@ -8,8 +8,52 @@ let slotResult = [];
 // DOM Elements
 let coinElement, betAmountElement, headsButton, tailsButton, spinButton, slotReels, resultElement;
 
-// Initialize games
+// Initialize the application
+function initApp() {
+    // Check authentication state
+    auth.onAuthStateChanged((user) => {
+        const loadingScreen = document.getElementById('loadingScreen');
+        const authOverlay = document.getElementById('authOverlay');
+        const app = document.getElementById('app');
+        
+        if (loadingScreen) loadingScreen.style.display = 'none';
+        
+        if (user) {
+            // User is signed in
+            if (authOverlay) authOverlay.style.display = 'none';
+            if (app) app.style.display = 'block';
+            
+            // Load user data
+            loadUserData(user.uid);
+            loadGames();
+        } else {
+            // No user is signed in
+            if (authOverlay) authOverlay.style.display = 'flex';
+            if (app) app.style.display = 'none';
+        }
+    });
+}
+
+// Load user data from Firebase
+function loadUserData(userId) {
+    usersRef.child(userId).once('value')
+        .then((snapshot) => {
+            const userData = snapshot.val() || { balance: 1000 };
+            updateBalanceDisplay(userData.balance || 1000);
+        });
+}
+
+// Update balance display
+function updateBalanceDisplay(balance) {
+    const balanceElements = document.querySelectorAll('#userBalance, #mobileUserBalance');
+    balanceElements.forEach(el => {
+        if (el) el.textContent = balance.toLocaleString();
+    });
+}
+
+// Initialize games when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    initApp();
     // Initialize game elements when they're loaded
     document.addEventListener('gameLoaded', (e) => {
         if (e.detail.gameId === 'coin-flip') {

@@ -1,17 +1,5 @@
-// Authentication state observer
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        // User is signed in
-        document.getElementById('authOverlay').style.display = 'none';
-        document.getElementById('app').classList.remove('hidden');
-        loadUserData(user.uid);
-    } else {
-        // No user is signed in
-        document.getElementById('authOverlay').style.display = 'flex';
-        document.getElementById('app').classList.add('hidden');
-        loadAuthForm('login');
-    }
-});
+// Authentication state observer is now handled in index.html
+// This file contains the authentication functions used by the UI
 
 // Load authentication form
 function loadAuthForm(formType) {

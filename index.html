@@ -231,9 +231,9 @@
     </div>
 
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     
     <!-- Application Scripts -->
     <script src="js/config.js"></script>
@@ -241,17 +241,42 @@
     <script src="js/games.js"></script>
     <script src="js/main.js"></script>
     
-    <!-- Initialize App -->
+    <!-- App Initialization -->
     <script>
-        // Show loading screen while app initializes
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Firebase and check auth state
-            initApp().then(() => {
-                // Hide loading screen after everything is ready
-                document.getElementById('loadingScreen').classList.add('hidden');
-            }).catch(error => {
-                console.error('Failed to initialize app:', error);
-                showToast('Failed to load the application. Please refresh the page.', 'error');
+        // Make auth and database globally available
+        window.auth = firebase.auth();
+        window.database = firebase.database();
+        
+        // Initialize the app when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show loading screen
+            const loadingScreen = document.getElementById('loadingScreen');
+            
+            // Check if user is already logged in
+            auth.onAuthStateChanged((user) => {
+                const authOverlay = document.getElementById('authOverlay');
+                const app = document.getElementById('app');
+                
+                // Hide loading screen
+                if (loadingScreen) loadingScreen.style.display = 'none';
+                
+                if (user) {
+                    // User is signed in
+                    if (authOverlay) authOverlay.style.display = 'none';
+                    if (app) app.style.display = 'block';
+                    
+                    // Load user data and games
+                    if (typeof loadUserData === 'function') {
+                        loadUserData(user.uid);
+                    }
+                    if (typeof loadGames === 'function') {
+                        loadGames();
+                    }
+                } else {
+                    // No user is signed in
+                    if (authOverlay) authOverlay.style.display = 'flex';
+                    if (app) app.style.display = 'none';
+                }
             });
         });
         
