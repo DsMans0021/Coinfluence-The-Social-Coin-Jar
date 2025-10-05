@@ -38,5 +38,5 @@ A professional online coin flipping gambling game built with Firebase for real-t
 ### Option 2: Local Development
 1. Clone the repository:
    ```bash
-   git clone [your-repo-url]
+   git clone DsMans0021/The_Coiner
    cd coin-gambler
