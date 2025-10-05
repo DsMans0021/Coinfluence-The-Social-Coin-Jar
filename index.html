@@ -28,18 +28,9 @@
             font-weight: bold;
             font-size: 1.5rem;
         }
-        .coin-heads {
-            background-color: #fbbf24;
-            color: #1f2937;
-        }
-        .coin-tails {
-            background-color: #4b5563;
-            color: white;
-            transform: rotateY(180deg);
-        }
-        .flipping {
-            animation: flip 2s ease-out;
-        }
+        .coin-heads { background-color: #fbbf24; color: #1f2937; }
+        .coin-tails { background-color: #4b5563; color: white; transform: rotateY(180deg); }
+        .flipping { animation: flip 2s ease-out; }
         @keyframes flip {
             0% { transform: rotateY(0); }
             50% { transform: rotateY(1800deg); }
@@ -158,16 +149,6 @@
     <script src="js/main.js"></script>
 </body>
 </html>
-            storageBucket: "coin-81c18.firebasestorage.app",
-            messagingSenderId: "558043083775",
-            appId: "1:558043083775:web:d0512fdf66a00d1f1cadca",
-            measurementId: "G-E00B895D96"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const database = firebase.database();
 
         // Game state
         let userData = {
