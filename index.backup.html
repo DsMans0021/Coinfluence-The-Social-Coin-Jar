@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gambler's Paradise - Game Library</title>
-    <!-- CSS Dependencies -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    
     <style>
-        /* Coin Flip Animation */
         .coin {
             width: 120px;
             height: 120px;
@@ -40,276 +36,117 @@
             50% { transform: rotateY(1800deg); }
             100% { transform: rotateY(0); }
         }
-        
-        /* Game Card Styles */
-        .game-card {
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        
-        /* Loading Spinner */
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255,255,255,0.1);
-            border-radius: 50%;
-            border-top-color: #3b82f6;
-            animation: spin 1s ease-in-out infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body class="bg-gray-900 min-h-screen text-white">
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50">
-        <div class="text-center">
-            <div class="spinner mx-auto mb-4"></div>
-            <p class="text-gray-400">Loading...</p>
-        </div>
-    </div>
-
     <!-- Auth Overlay -->
-    <div id="authOverlay" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-40">
-        <div class="bg-gray-800 p-8 rounded-lg w-full max-w-md mx-4">
-            <!-- Login Form (Default) -->
+    <div id="authOverlay" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div class="bg-gray-800 p-8 rounded-lg w-full max-w-md">
+            <!-- Login Form -->
             <div id="loginForm">
-                <h2 class="text-2xl font-bold mb-6 text-center">Welcome Back!</h2>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-gray-300 text-sm font-medium mb-1" for="loginEmail">Email</label>
-                        <input type="email" id="loginEmail" class="w-full px-4 py-2 bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" 
-                               placeholder="your@email.com" autocomplete="email">
-                        <p id="loginEmailError" class="text-red-500 text-xs mt-1 hidden"></p>
-                    </div>
-                    <div>
-                        <label class="block text-gray-300 text-sm font-medium mb-1" for="loginPassword">Password</label>
-                        <input type="password" id="loginPassword" class="w-full px-4 py-2 bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" 
-                               placeholder="••••••••" autocomplete="current-password">
-                        <p id="loginPasswordError" class="text-red-500 text-xs mt-1 hidden"></p>
-                    </div>
-                    <button onclick="login()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition duration-200">
-                        Sign In
-                    </button>
-                    <p class="text-center text-sm text-gray-400">
-                        Don't have an account? 
-                        <a href="#" onclick="toggleForms()" class="text-blue-400 hover:text-blue-300 font-medium">Create one</a>
-                    </p>
+                <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2" for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="Enter your email">
+                    <p id="loginEmailError" class="text-red-500 text-xs mt-1 hidden">Please enter a valid email</p>
                 </div>
+                <div class="mb-6">
+                    <label class="block text-gray-300 text-sm font-bold mb-2" for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="Enter your password">
+                    <p id="loginPasswordError" class="text-red-500 text-xs mt-1 hidden">Password must be at least 6 characters</p>
+                </div>
+                <button onclick="login()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+                    Login
+                </button>
+                <p class="text-center text-sm">
+                    Don't have an account? 
+                    <a href="#" onclick="toggleForms()" class="text-blue-400 hover:underline">Sign Up</a>
+                </p>
             </div>
 
-            <!-- Signup Form (Hidden by default) -->
+            <!-- Signup Form (initially hidden) -->
             <div id="signupForm" class="hidden">
                 <h2 class="text-2xl font-bold mb-6 text-center">Create Account</h2>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-gray-300 text-sm font-medium mb-1" for="signupUsername">Username</label>
-                        <input type="text" id="signupUsername" class="w-full px-4 py-2 bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" 
-                               placeholder="Choose a username" autocomplete="username">
-                        <p id="signupUsernameError" class="text-red-500 text-xs mt-1 hidden"></p>
-                    </div>
-                    <div>
-                        <label class="block text-gray-300 text-sm font-medium mb-1" for="signupEmail">Email</label>
-                        <input type="email" id="signupEmail" class="w-full px-4 py-2 bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" 
-                               placeholder="your@email.com" autocomplete="email">
-                        <p id="signupEmailError" class="text-red-500 text-xs mt-1 hidden"></p>
-                    </div>
-                    <div>
-                        <label class="block text-gray-300 text-sm font-medium mb-1" for="signupPassword">Password</label>
-                        <input type="password" id="signupPassword" class="w-full px-4 py-2 bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" 
-                               placeholder="•••••••• (min 6 characters)" autocomplete="new-password">
-                        <p id="signupPasswordError" class="text-red-500 text-xs mt-1 hidden"></p>
-                    </div>
-                    <button onclick="signup()" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 px-4 rounded-lg transition duration-200">
-                        Create Account
-                    </button>
-                    <p class="text-center text-sm text-gray-400">
-                        Already have an account? 
-                        <a href="#" onclick="toggleForms()" class="text-blue-400 hover:text-blue-300 font-medium">Sign In</a>
-                    </p>
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2" for="signupUsername">Username</label>
+                    <input type="text" id="signupUsername" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="Choose a username">
+                    <p id="signupUsernameError" class="text-red-500 text-xs mt-1 hidden">Username is required</p>
                 </div>
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2" for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="Enter your email">
+                    <p id="signupEmailError" class="text-red-500 text-xs mt-1 hidden">Please enter a valid email</p>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-300 text-sm font-bold mb-2" for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="Create a password (min 6 characters)">
+                    <p id="signupPasswordError" class="text-red-500 text-xs mt-1 hidden">Password must be at least 6 characters</p>
+                </div>
+                <button onclick="signup()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4">
+                    Sign Up
+                </button>
+                <p class="text-center text-sm">
+                    Already have an account? 
+                    <a href="#" onclick="toggleForms()" class="text-blue-400 hover:underline">Login</a>
+                </p>
             </div>
         </div>
     </div>
 
-    <!-- Main App (Initially hidden) -->
-    <div id="app" class="min-h-screen">
-        <!-- Navigation -->
-        <nav class="bg-gray-800 shadow-lg">
-            <div class="container mx-auto px-4 py-3">
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-2xl">🎰</span>
-                        <h1 class="text-xl font-bold">Gambler's Paradise</h1>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="hidden md:flex items-center space-x-2 bg-gray-700 px-4 py-2 rounded-lg">
-                            <span class="text-yellow-400">💰</span>
-                            <span id="userBalance" class="font-medium">0</span>
-                            <span class="text-gray-400 text-sm">coins</span>
-                        </div>
-                        <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition flex items-center space-x-2">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </button>
-                    </div>
+    <!-- Main App -->
+    <div id="app" class="container mx-auto px-4 py-8 hidden">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <h1 class="text-3xl font-bold text-gray-100">Gambler's Paradise</h1>
+            <div class="flex items-center space-x-4">
+                <div class="bg-gray-800 px-4 py-2 rounded-lg shadow flex items-center space-x-2">
+                    <span class="text-yellow-500">💰</span>
+                    <span id="userBalance" class="font-semibold">0</span>
+                    <span class="text-gray-400">coins</span>
                 </div>
-            </div>
-        </nav>
-
-        <!-- Main Content -->
-        <main class="container mx-auto px-4 py-8">
-            <!-- Game Library Section -->
-            <section class="mb-12">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-100">🎮 Game Library</h2>
-                    <div class="flex items-center space-x-2 bg-gray-800 px-4 py-2 rounded-lg md:hidden">
-                        <span class="text-yellow-400">💰</span>
-                        <span id="mobileUserBalance" class="font-medium">0</span>
-                        <span class="text-gray-400 text-sm">coins</span>
-                    </div>
-                </div>
-                
-                <!-- Game Cards Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="gameLibrary">
-                    <!-- Games will be loaded here by games.js -->
-                </div>
-            </section>
-
-            <!-- Game History Section -->
-            <section>
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-bold text-gray-100">📜 Recent Games</h2>
-                    <button onclick="refreshHistory()" class="text-blue-400 hover:text-blue-300 flex items-center space-x-1">
-                        <i class="fas fa-sync-alt"></i>
-                        <span>Refresh</span>
-                    </button>
-                </div>
-                
-                <div class="bg-gray-800 rounded-lg shadow overflow-hidden">
-                    <div class="p-4 border-b border-gray-700">
-                        <div class="grid grid-cols-4 text-gray-400 text-sm font-medium">
-                            <div>Game</div>
-                            <div>Result</div>
-                            <div>Amount</div>
-                            <div>Time</div>
-                        </div>
-                    </div>
-                    <div id="gameHistory" class="divide-y divide-gray-700">
-                        <div class="p-4 text-center text-gray-500">
-                            <p>Your game history will appear here</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <!-- Game Container (For individual game UIs) -->
-    <div id="gameContainer" class="hidden"></div>
-
-    <!-- Toast Notifications -->
-    <div id="toast" class="fixed bottom-4 right-4 max-w-sm w-full bg-gray-800 rounded-lg shadow-lg p-4 transform translate-y-16 opacity-0 transition-all duration-300 z-50">
-        <div class="flex items-start">
-            <div id="toastIcon" class="flex-shrink-0 pt-0.5"></div>
-            <div class="ml-3 w-0 flex-1">
-                <p id="toastMessage" class="text-sm font-medium text-gray-100"></p>
-            </div>
-            <div class="ml-4 flex-shrink-0 flex">
-                <button onclick="hideToast()" class="inline-flex text-gray-400 hover:text-gray-300 focus:outline-none">
-                    <span class="sr-only">Close</span>
-                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                    </svg>
+                <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
+                    Logout
                 </button>
             </div>
-        </div>
+        </header>
+
+        <!-- Game Library -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-gray-100">🎮 Game Library</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="gameLibrary">
+                <!-- Games will be loaded here by games.js -->
+            </div>
+        </section>
+
+        <!-- Recent Games -->
+        <section>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-gray-100">📜 Recent Games</h2>
+                <button onclick="refreshHistory()" class="text-blue-400 hover:text-blue-300">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            <div id="gameHistory" class="bg-gray-800 rounded-lg shadow overflow-hidden">
+                <div class="p-4 border-b border-gray-700">
+                    <p class="text-gray-400 text-center">Your game history will appear here</p>
+                </div>
+            </div>
+        </section>
     </div>
+
+    <!-- Game Container (Dynamically loaded) -->
+    <div id="gameContainer" class="hidden"></div>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
     
-    <!-- Application Scripts -->
+    <!-- Game Scripts -->
     <script src="js/config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/games.js"></script>
     <script src="js/main.js"></script>
-    
-    <!-- Initialize App -->
-    <script>
-        // Show loading screen while app initializes
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Firebase and check auth state
-            initApp().then(() => {
-                // Hide loading screen after everything is ready
-                document.getElementById('loadingScreen').classList.add('hidden');
-            }).catch(error => {
-                console.error('Failed to initialize app:', error);
-                showToast('Failed to load the application. Please refresh the page.', 'error');
-            });
-        });
-        
-        // Show toast notification
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            const toastIcon = document.getElementById('toastIcon');
-            
-            // Set message
-            toastMessage.textContent = message;
-            
-            // Set icon based on type
-            let iconHtml = '';
-            switch(type) {
-                case 'success':
-                    iconHtml = '<svg class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
-                    break;
-                case 'error':
-                    iconHtml = '<svg class="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
-                    break;
-                case 'warning':
-                    iconHtml = '<svg class="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>';
-                    break;
-                default:
-                    iconHtml = '<svg class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
-            }
-            toastIcon.innerHTML = iconHtml;
-            
-            // Show toast
-            toast.classList.remove('opacity-0', 'translate-y-16');
-            toast.classList.add('opacity-100', 'translate-y-0');
-            
-            // Auto hide after 5 seconds
-            setTimeout(hideToast, 5000);
-        }
-        
-        // Hide toast notification
-        function hideToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.remove('opacity-100', 'translate-y-0');
-            toast.classList.add('opacity-0', 'translate-y-16');
-        }
-        
-        // Toggle between login and signup forms
-        function toggleForms() {
-            const loginForm = document.getElementById('loginForm');
-            const signupForm = document.getElementById('signupForm');
-            
-            loginForm.classList.toggle('hidden');
-            signupForm.classList.toggle('hidden');
-            
-            // Clear form errors when switching
-            document.querySelectorAll('[id$="Error"]').forEach(el => {
-                el.classList.add('hidden');
-            });
-        }
-    </script>
 </body>
 </html>
 
