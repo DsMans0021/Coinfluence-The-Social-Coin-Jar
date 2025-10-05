@@ -6,100 +6,12 @@
     <title>Gambler's Paradise - Game Library</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .coin {
-            width: 120px;
-            height: 120px;
-            margin: 20px auto;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 2s;
-            cursor: pointer;
-        }
-        .coin-heads, .coin-tails {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-        .coin-heads {
-            background-color: #fbbf24;
-            color: #1f2937;
-        }
-        .coin-tails {
-            background-color: #4b5563;
-            color: white;
-            transform: rotateY(180deg);
-        }
-        .flipping {
-            animation: flip 2s ease-out;
-        }
-        @keyframes flip {
-            0% { transform: rotateY(0); }
-            50% { transform: rotateY(1800deg); }
-            100% { transform: rotateY(0); }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-gray-900 min-h-screen text-white">
     <!-- Auth Overlay -->
     <div id="authOverlay" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-        <div class="bg-gray-800 p-8 rounded-lg w-full max-w-md">
-            <!-- Login Form -->
-            <div id="loginForm">
-                <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
-                <div class="mb-4">
-                    <label class="block text-gray-300 text-sm font-bold mb-2" for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="Enter your email">
-                    <p id="loginEmailError" class="text-red-500 text-xs mt-1 hidden">Please enter a valid email</p>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-gray-300 text-sm font-bold mb-2" for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="Enter your password">
-                    <p id="loginPasswordError" class="text-red-500 text-xs mt-1 hidden">Password must be at least 6 characters</p>
-                </div>
-                <button onclick="login()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-                    Login
-                </button>
-                <p class="text-center text-sm">
-                    Don't have an account? 
-                    <a href="#" onclick="toggleForms()" class="text-blue-400 hover:underline">Sign Up</a>
-                </p>
-            </div>
-
-            <!-- Signup Form (initially hidden) -->
-            <div id="signupForm" class="hidden">
-                <h2 class="text-2xl font-bold mb-6 text-center">Create Account</h2>
-                <div class="mb-4">
-                    <label class="block text-gray-300 text-sm font-bold mb-2" for="signupUsername">Username</label>
-                    <input type="text" id="signupUsername" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="Choose a username">
-                    <p id="signupUsernameError" class="text-red-500 text-xs mt-1 hidden">Username is required</p>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-300 text-sm font-bold mb-2" for="signupEmail">Email</label>
-                    <input type="email" id="signupEmail" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="Enter your email">
-                    <p id="signupEmailError" class="text-red-500 text-xs mt-1 hidden">Please enter a valid email</p>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-gray-300 text-sm font-bold mb-2" for="signupPassword">Password</label>
-                    <input type="password" id="signupPassword" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="Create a password (min 6 characters)">
-                    <p id="signupPasswordError" class="text-red-500 text-xs mt-1 hidden">Password must be at least 6 characters</p>
-                </div>
-                <button onclick="signup()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4">
-                    Sign Up
-                </button>
-                <p class="text-center text-sm">
-                    Already have an account? 
-                    <a href="#" onclick="toggleForms()" class="text-blue-400 hover:underline">Login</a>
-                </p>
-            </div>
-        </div>
+        <!-- Login/Signup forms will be loaded here by auth.js -->
     </div>
 
     <!-- Main App -->
@@ -156,8 +68,136 @@
     <script src="js/auth.js"></script>
     <script src="js/games.js"></script>
     <script src="js/main.js"></script>
-</body>
-</html>
+                <button onclick="signup()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4">
+                    Sign Up
+                </button>
+                <p class="text-center text-sm">
+                    Already have an account? 
+                    <a href="#" onclick="toggleForms()" class="text-blue-400 hover:underline">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Game Container -->
+    <div class="container mx-auto px-4 py-8 hidden" id="gameContainer">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <h1 class="text-3xl font-bold">Coin Gambler</h1>
+            <div class="flex items-center space-x-4">
+                <div class="bg-gray-800 px-4 py-2 rounded-lg flex items-center space-x-2">
+                    <span class="text-yellow-400">💰</span>
+                    <span id="userBalance">1000</span> Coins
+                </div>
+                <div class="bg-gray-800 px-4 py-2 rounded-lg">
+                    <span id="usernameDisplay" class="font-medium"></span>
+                </div>
+                <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
+                    Logout
+                </button>
+            </div>
+        </header>
+
+        <!-- Game Area -->
+        <div class="bg-gray-800 rounded-lg p-6 shadow-lg">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold mb-2">Heads or Tails?</h2>
+                <p class="text-gray-400">Place your bet and guess the outcome</p>
+            </div>
+
+            <!-- Coin -->
+            <div class="coin" id="coin">
+                <div class="coin-heads">HEADS</div>
+                <div class="coin-tails">TAILS</div>
+            </div>
+
+            <!-- Betting Controls -->
+            <div class="mt-8">
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Bet Amount</label>
+                    <div class="flex">
+                        <button onclick="adjustBet(-10)" class="bg-gray-700 hover:bg-gray-600 px-3 rounded-l">-10</button>
+                        <button onclick="adjustBet(-100)" class="bg-gray-700 hover:bg-gray-600 px-3">-100</button>
+                        <input type="number" id="betAmount" min="1" value="10" 
+                               class="flex-1 p-2 bg-gray-700 text-center text-white">
+                        <button onclick="adjustBet(100)" class="bg-gray-700 hover:bg-gray-600 px-3">+100</button>
+                        <button onclick="adjustBet(10)" class="bg-gray-700 hover:bg-gray-600 px-3 rounded-r">+10</button>
+                    </div>
+                    <div class="flex justify-between mt-2 text-xs text-gray-400">
+                        <button onclick="setBetPercentage(0.25)" class="hover:text-white">25%</button>
+                        <button onclick="setBetPercentage(0.5)" class="hover:text-white">50%</button>
+                        <button onclick="setBetPercentage(0.75)" class="hover:text-white">75%</button>
+                        <button onclick="setBetPercentage(1)" class="hover:text-white">MAX</button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="placeBet('heads')" id="headsBtn" class="btn-bet bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-6 rounded-lg text-lg">
+                        Heads
+                    </button>
+                    <button onclick="placeBet('tails')" id="tailsBtn" class="btn-bet bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg text-lg">
+                        Tails
+                    </button>
+                </div>
+            </div>
+
+            <!-- Game Stats -->
+            <div class="mt-8 pt-6 border-t border-gray-700">
+                <h3 class="text-lg font-semibold mb-4">Game Stats</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-gray-700 p-4 rounded-lg">
+                        <p class="text-gray-400 text-sm">Games Played</p>
+                        <p class="text-xl font-bold" id="gamesPlayed">0</p>
+                    </div>
+                    <div class="bg-gray-700 p-4 rounded-lg">
+                        <p class="text-gray-400 text-sm">Win Rate</p>
+                        <p class="text-xl font-bold" id="winRate">0%</p>
+                    </div>
+                    <div class="bg-gray-700 p-4 rounded-lg">
+                        <p class="text-gray-400 text-sm">Total Won</p>
+                        <p class="text-xl font-bold" id="totalWon">0</p>
+                    </div>
+                    <div class="bg-gray-700 p-4 rounded-lg">
+                        <p class="text-gray-400 text-sm">Total Lost</p>
+                        <p class="text-xl font-bold" id="totalLost">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="mt-8 bg-gray-800 rounded-lg p-6 shadow-lg">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">🏆 Leaderboard</h2>
+                <button onclick="updateLeaderboard()" class="text-blue-400 hover:text-blue-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+            <div id="leaderboard" class="space-y-2">
+                <div class="text-center py-4">
+                    <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Log -->
+        <div class="mt-8 bg-gray-800 rounded-lg p-6 shadow-lg">
+            <h2 class="text-xl font-bold mb-4">📜 Game History</h2>
+            <div id="gameLog" class="space-y-2 max-h-60 overflow-y-auto pr-2">
+                <p class="text-center text-gray-500 py-4">Your game history will appear here</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCS3VrMBmUE2-sjfHLd445HkgLHKvmFiu4",
+            authDomain: "coin-81c18.firebaseapp.com",
+            databaseURL: "https://coin-81c18-default-rtdb.firebaseio.com",
+            projectId: "coin-81c18",
             storageBucket: "coin-81c18.firebasestorage.app",
             messagingSenderId: "558043083775",
             appId: "1:558043083775:web:d0512fdf66a00d1f1cadca",
