@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Gambler - Play & Win with Coins</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Auth Screen -->
+        <div id="auth-screen" class="screen">
+            <div class="auth-container">
+                <h1>Coin Gambler</h1>
+                <p>Play exciting coin games and win big!</p>
+                <button id="google-signin" class="btn btn-google">
+                    <i class="fab fa-google"></i> Sign in with Google
+                </button>
+            </div>
+        </div>
+
+        <!-- Main App -->
+        <div id="app-screen" class="screen hidden">
+            <header class="app-header">
+                <div class="balance-container">
+                    <i class="fas fa-coins"></i>
+                    <span id="user-balance">0</span> coins
+                </div>
+                <div class="user-info">
+                    <span id="username">Guest</span>
+                    <img id="user-avatar" src="" alt="User Avatar" class="avatar">
+                    <button id="sign-out" class="btn-signout" title="Sign Out">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="games-grid">
+                    <!-- Coin Flip Game -->
+                    <div class="game-card" data-game="coin-flip">
+                        <div class="game-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h3>Coin Flip</h3>
+                        <p>Heads or Tails? 50/50 chance to win!</p>
+                        <button class="btn btn-play">Play Now</button>
+                    </div>
+
+                    <!-- Dice Roll Game -->
+                    <div class="game-card" data-game="dice-roll">
+                        <div class="game-icon">
+                            <i class="fas fa-dice"></i>
+                        </div>
+                        <h3>Dice Roll</h3>
+                        <p>Roll the dice and win up to 6x your bet!</p>
+                        <button class="btn btn-play">Play Now</button>
+                    </div>
+
+                    <!-- Slots Game -->
+                    <div class="game-card" data-game="slots">
+                        <div class="game-icon">
+                            <i class="fas fa-sliders-h"></i>
+                        </div>
+                        <h3>Lucky Slots</h3>
+                        <p>Match the symbols for big wins!</p>
+                        <button class="btn btn-play">Play Now</button>
+                    </div>
+                </div>
+
+                <!-- Game Area -->
+                <div id="game-area" class="game-area hidden">
+                    <div class="game-header">
+                        <button id="back-to-games" class="btn-back">
+                            <i class="fas fa-arrow-left"></i> Back to Games
+                        </button>
+                        <h2 id="current-game-title">Game Title</h2>
+                    </div>
+                    
+                    <!-- Game content will be loaded here -->
+                    <div id="game-container"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/games.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
