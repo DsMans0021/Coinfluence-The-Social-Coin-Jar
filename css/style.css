@@ -169,7 +169,6 @@ body {
     font-weight: 600;
 }
 
-.auth-header p {
     color: var(--text-secondary);
     font-size: 1rem;
     margin: 0;
@@ -179,6 +178,8 @@ body {
 .auth-tabs {
     display: flex;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
 .auth-tab {

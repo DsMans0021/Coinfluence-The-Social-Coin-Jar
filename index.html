@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Coin Gambler</title>
+    <title>Coin Gambler - Play & Win</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -25,14 +25,17 @@
                     <i class="fas fa-coins"></i>
                     <h1>Coin Gambler</h1>
                 </div>
-                
-                <div class="auth-header">
-                    <h2>Welcome Back!</h2>
-                    <p>Login to access your account</p>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="login">Login</button>
+                    <button class="tab-btn" data-tab="signup">Sign Up</button>
+                    <div class="tab-indicator"></div>
                 </div>
                 
-                <form id="login-email-form" class="auth-form">
-                    <div id="error-message" class="error-message"></div>
+                <!-- Login Form -->
+                <form id="login-form" class="auth-form active">
+                    <div id="login-error" class="error-message"></div>
                     
                     <div class="form-group">
                         <div class="input-group">
@@ -45,7 +48,7 @@
                         <div class="input-group">
                             <i class="fas fa-lock"></i>
                             <input type="password" id="login-password" placeholder="Password" required>
-                            <button type="button" class="toggle-password" id="toggle-password">
+                            <button type="button" class="toggle-password" data-target="login-password">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
@@ -57,39 +60,61 @@
                         <i class="fas fa-arrow-right"></i>
                     </button>
                     
-                    <p class="auth-switch">
-                        Don't have an account? <a href="signup.html">Sign up</a>
+                    <p class="terms">
+                        By logging in, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </p>
+                </form>
+
+                <!-- Signup Form -->
+                <form id="signup-form" class="auth-form">
+                    <div id="signup-error" class="error-message"></div>
+                    
+                    <div class="form-group">
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="signup-username" placeholder="Choose a username" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="signup-email" placeholder="Email address" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="signup-password" placeholder="Create a password" required>
+                            <button type="button" class="toggle-password" data-target="signup-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <small class="password-hint">Minimum 6 characters</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="confirm-password" placeholder="Confirm password" required>
+                            <button type="button" class="toggle-password" data-target="confirm-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-text">Start Playing Now</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    
+                    <p class="terms">
+                        By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
                     </p>
                 </form>
             </div>
         </div>
-
-            <main class="main-content">
-                <div class="games-grid">
-                    <!-- Coin Flip Game -->
-                    <div class="game-card" data-game="coin-flip">
-                        <div class="game-icon">
-                            <i class="fas fa-coins"></i>
-                        </div>
-                        <h3>Coin Flip</h3>
-                        <p>Heads or Tails? 50/50 chance to win!</p>
-                        <button class="btn btn-play">Play Now</button>
-                    </div>
-
-                    <!-- Dice Roll Game -->
-                    <div class="game-card" data-game="dice-roll">
-                        <div class="game-icon">
-                            <i class="fas fa-dice"></i>
-                        </div>
-                        <h3>Dice Roll</h3>
-                        <p>Roll the dice and win up to 6x your bet!</p>
-                        <button class="btn btn-play">Play Now</button>
-                    </div>
-
-                    <!-- Slots Game -->
-                    <div class="game-card" data-game="slots">
-                        <div class="game-icon">
-                            <i class="fas fa-sliders-h"></i>
                         </div>
                         <h3>Lucky Slots</h3>
                         <p>Match the symbols for big wins!</p>
