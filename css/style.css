@@ -56,18 +56,270 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: center;
     align-items: center;
     background: linear-gradient(135deg, var(--background-dark), var(--background-light));
-    text-align: center;
     padding: 2rem;
+    min-height: 100vh;
 }
 
 .auth-container {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    padding: 3rem 4rem;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    max-width: 500px;
+    max-width: 450px;
     width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Auth Tabs */
+.auth-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 1.25rem;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.auth-tab.active {
+    color: var(--primary-color);
+}
+
+.auth-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 3px 3px 0 0;
+}
+
+/* Auth Forms */
+.auth-form {
+    padding: 2.5rem;
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+.auth-form h1 {
+    color: #fff;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.auth-form p {
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 1.25rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    color: #fff;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(240, 193, 75, 0.2);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.25rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+}
+
+/* Forgot Password */
+.forgot-password {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: var(--primary-color);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.forgot-password:hover {
+    opacity: 0.9;
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.9rem;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 1rem;
+}
+
+/* Auth Switch */
+.auth-switch {
+    margin-top: 1.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.auth-switch a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.auth-switch a:hover {
+    opacity: 0.9;
+}
+
+/* Primary Button */
+.btn-primary {
+    width: 100%;
+    background: var(--primary-color);
+    color: #000;
+    font-weight: 600;
+    padding: 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(240, 193, 75, 0.3);
+}
+
+/* Google Button */
+.btn-google {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: #fff;
+    color: #5f6368;
+    font-weight: 500;
+    padding: 0.9rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-google:hover {
+    background: #f1f1f1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-google i {
+    font-size: 1.1rem;
+    color: #4285f4;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Error Messages */
+.error-message {
+    display: none;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(255, 61, 0, 0.1);
+    color: #ff3d00;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    text-align: left;
+}
+
+.error-message.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Success Message */
+.success-message {
+    display: none;
+    margin: 1rem 0;
+    padding: 0.75rem;
+    background: rgba(0, 200, 83, 0.1);
+    color: #00c853;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.success-message.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+    .auth-container {
+        margin: 1rem;
+        padding: 0;
+    }
+    
+    .auth-form {
+        padding: 1.5rem;
+    }
+    
+    .auth-tab {
+        padding: 1rem 0.5rem;
+        font-size: 0.9rem;
+    }
 }
 
 /* Header */

@@ -13,11 +13,80 @@
         <!-- Auth Screen -->
         <div id="auth-screen" class="screen">
             <div class="auth-container">
-                <h1>Coin Gambler</h1>
-                <p>Play exciting coin games and win big!</p>
-                <button id="google-signin" class="btn btn-google">
-                    <i class="fab fa-google"></i> Sign in with Google
-                </button>
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login">Login</button>
+                    <button class="auth-tab" data-tab="signup">Sign Up</button>
+                </div>
+                
+                <!-- Login Form -->
+                <div id="login-form" class="auth-form active">
+                    <h1>Welcome Back!</h1>
+                    <p>Login to continue to Coin Gambler</p>
+                    
+                    <form id="login-email-form">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" placeholder="Enter your password" required>
+                            <a href="#" class="forgot-password">Forgot password?</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    
+                    <div class="divider">
+                        <span>or</span>
+                    </div>
+                    
+                    <button id="google-login" class="btn btn-google">
+                        <i class="fab fa-google"></i> Continue with Google
+                    </button>
+                    
+                    <p class="auth-switch">
+                        Don't have an account? <a href="#" id="show-signup">Sign up</a>
+                    </p>
+                </div>
+                
+                <!-- Signup Form -->
+                <div id="signup-form" class="auth-form">
+                    <h1>Create Account</h1>
+                    <p>Join Coin Gambler and start playing</p>
+                    
+                    <form id="signup-email-form">
+                        <div class="form-group">
+                            <label for="signup-username">Username</label>
+                            <input type="text" id="signup-username" placeholder="Choose a username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email</label>
+                            <input type="email" id="signup-email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" placeholder="Create a password" required>
+                            <small>Minimum 6 characters</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm Password</label>
+                            <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Account</button>
+                    </form>
+                    
+                    <div class="divider">
+                        <span>or</span>
+                    </div>
+                    
+                    <button id="google-signup" class="btn btn-google">
+                        <i class="fab fa-google"></i> Continue with Google
+                    </button>
+                    
+                    <p class="auth-switch">
+                        Already have an account? <a href="#" id="show-login">Login</a>
+                    </p>
+                </div>
             </div>
         </div>
 
