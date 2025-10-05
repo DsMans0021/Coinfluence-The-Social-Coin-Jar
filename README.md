@@ -1,24 +1,42 @@
-# Coinfluence — The Social Coin Jar
+# 🎰 Coin Gambler
 
-Coinfluence is a tiny web app that turns virtual coins into playful interactions. Drop coins into a jar, watch them stack with satisfying animation, and flip coins to gamble and win.
+A professional online coin flipping gambling game built with Firebase for real-time multiplayer functionality.
 
-## Tech
-- Vanilla HTML / CSS / JavaScript
-- Persistent state via localStorage
-- Deployable to GitHub Pages or Vercel
+## 🚀 Features
 
-## Features (MVP)
-- Animated coin drop + stacking
-- Persistent coin count across reloads
-- Coin flip mini-game (bet 1 coin; win doubles or lose)
-- Reset and share buttons (shareable state via URL)
+- **Secure Authentication**: Email/Password signup and login system
+- **Real-time Gameplay**: Instant coin flips with smooth animations
+- **Leaderboard**: Compete with players worldwide
+- **Game Statistics**: Track your wins, losses, and win rate
+- **Responsive Design**: Play on desktop or mobile devices
+- **Game History**: Review your past bets and results
+- **Secure Transactions**: Protected with Firebase Security Rules
 
-## How to run
-1. Open `index.html` in your browser (or deploy to GitHub Pages).
-2. Click **Drop Coin** to add coins.
-3. Click **Flip** to bet and see the result.
+## 🛠️ Technologies Used
 
-## Ideas to extend
-- Real payments (Stripe) to accept tips
-- Multi-device sync using Socket.IO or Firebase
-- Leaderboard / challenge mode
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **Backend**: Firebase
+  - Firebase Authentication
+  - Firebase Realtime Database
+  - Firebase Hosting (recommended)
+- **UI Framework**: Tailwind CSS
+- **Animations**: CSS3 Animations
+
+## 📝 Prerequisites
+
+- Modern web browser (Chrome, Firefox, Safari, Edge)
+- Firebase account (for hosting and backend)
+- Node.js (optional, for local development)
+
+## 🚀 Getting Started
+
+### Option 1: Play Online
+1. Visit [Game URL] (after deployment)
+2. Create an account or log in
+3. Start playing!
+
+### Option 2: Local Development
+1. Clone the repository:
+   ```bash
+   git clone [your-repo-url]
+   cd coin-gambler
