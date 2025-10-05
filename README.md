@@ -2,7 +2,7 @@
 
 A modern, responsive online casino platform featuring coin-themed gambling games. Built with HTML5, CSS3, JavaScript, and powered by Firebase for real-time data synchronization and user authentication.
 
-![Coin Gambler Preview](https://i.imgur.com/example.png)  
+![Coin Gambler Preview](https://github.com/DsMans0021/The_Coiner/blob/9e3935da35064e03d1be0e11243bcb75e3fc419d/Screenshot)  
 *Screenshot of the Coin Gambler platform*
 
 ## ✨ Features
@@ -34,8 +34,8 @@ A modern, responsive online casino platform featuring coin-themed gambling games
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/coin-gambler.git
-   cd coin-gambler
+   git clone https://github.com/DsMans0021/The_Coiner/
+   cd The_Coiner
    ```
 
 2. **Set up Firebase**
@@ -103,7 +103,7 @@ A modern, responsive online casino platform featuring coin-themed gambling games
 ## 📂 Project Structure
 
 ```
-coin-gambler/
+The_Coiner/
 ├── index.html          # Main HTML file
 ├── css/
 │   └── style.css       # All styles
@@ -143,10 +143,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-For questions or feedback, please contact [Your Email] or create an issue on GitHub.
+For questions or feedback, please contact [medozizo008@gmail.com] or create an issue on GitHub.
 
 ---
 
 <div align="center">
-  Made with ❤️ by Your Name
+  Made with ❤️ by DsMans0021
 </div>
