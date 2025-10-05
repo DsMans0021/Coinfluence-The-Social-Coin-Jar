@@ -1,4 +1,4 @@
-import { auth, database, googleProvider } from './config.js';
+import { auth, database } from './config.js';
 
 // DOM Elements
 const authScreen = document.getElementById('auth-screen');
@@ -11,11 +11,7 @@ const signOutButton = document.getElementById('sign-out');
 // Auth Forms
 const loginForm = document.getElementById('login-email-form');
 const signupForm = document.getElementById('signup-email-form');
-const googleLoginBtn = document.getElementById('google-login');
-const googleSignupBtn = document.getElementById('google-signup');
-const showSignupLink = document.getElementById('show-signup');
-const showLoginLink = document.getElementById('show-login');
-const authTabs = document.querySelectorAll('.auth-tab');
+const forgotPasswordLink = document.querySelector('.forgot-password');
 
 // User data cache
 let currentUser = null;
@@ -28,19 +24,10 @@ function initAuth() {
     // Event listeners
     if (loginForm) loginForm.addEventListener('submit', handleEmailLogin);
     if (signupForm) signupForm.addEventListener('submit', handleEmailSignup);
-    if (googleLoginBtn) googleLoginBtn.addEventListener('click', () => signInWithGoogle('login'));
-    if (googleSignupBtn) googleSignupBtn.addEventListener('click', () => signInWithGoogle('signup'));
-    if (showSignupLink) showSignupLink.addEventListener('click', (e) => switchAuthForm(e, 'signup'));
-    if (showLoginLink) showLoginLink.addEventListener('click', (e) => switchAuthForm(e, 'login'));
     if (signOutButton) signOutButton.addEventListener('click', signOut);
-    
-    // Tab switching
-    authTabs.forEach(tab => {
-        tab.addEventListener('click', (e) => {
-            const tabName = e.target.dataset.tab;
-            switchAuthForm(e, tabName);
-        });
-    });
+    if (forgotPasswordLink) {
+        forgotPasswordLink.addEventListener('click', handleForgotPassword);
+    }
 }
 
 // Handle auth state changes
@@ -48,11 +35,20 @@ function handleAuthStateChanged(user) {
     if (user) {
         // User is signed in
         currentUser = user;
-        showApp();
-        loadUserData(user.uid);
+        // If we're on the auth page, redirect to app
+        if (window.location.pathname.endsWith('signup.html') || window.location.pathname.endsWith('index.html')) {
+            window.location.href = 'app.html';
+        } else {
+            showApp();
+            loadUserData(user.uid);
+        }
     } else {
         // User is signed out
-        showAuth('login');
+        if (window.location.pathname.endsWith('app.html')) {
+            window.location.href = 'index.html';
+        } else {
+            showAuth();
+        }
     }
 }
 
@@ -62,14 +58,20 @@ async function handleEmailLogin(e) {
     
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
-    const errorElement = document.getElementById('login-error');
+    const submitBtn = document.querySelector('#login-email-form button[type="submit"]');
+    
+    // Disable submit button during processing
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Signing in...';
     
     try {
-        const { user } = await auth.signInWithEmailAndPassword(email, password);
+        await auth.signInWithEmailAndPassword(email, password);
         // User is now logged in, handled by onAuthStateChanged
     } catch (error) {
         console.error('Login error:', error);
-        showError('login', getAuthErrorMessage(error));
+        showError(getAuthErrorMessage(error));
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Login';
     }
 }
 
@@ -81,16 +83,25 @@ async function handleEmailSignup(e) {
     const email = document.getElementById('signup-email').value;
     const password = document.getElementById('signup-password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
+    const submitBtn = document.querySelector('#signup-email-form button[type="submit"]');
+    
+    // Disable submit button during processing
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Creating Account...';
     
     // Validate passwords match
     if (password !== confirmPassword) {
-        showError('signup', 'Passwords do not match');
+        showError('Passwords do not match');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create Account';
         return;
     }
     
     // Validate password strength
     if (password.length < 6) {
-        showError('signup', 'Password must be at least 6 characters');
+        showError('Password must be at least 6 characters');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create Account';
         return;
     }
     
@@ -106,43 +117,37 @@ async function handleEmailSignup(e) {
         // Create user in database
         await createUserInDatabase(user, { username });
         
-        // Show success message
-        showSuccess('Account created successfully!');
+        // Show success message and redirect to app
+        showSuccess('Account created successfully! Redirecting...');
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1500);
         
     } catch (error) {
         console.error('Signup error:', error);
-        showError('signup', getAuthErrorMessage(error));
+        showError(getAuthErrorMessage(error));
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create Account';
     }
 }
 
-// Sign in with Google
-async function signInWithGoogle(context = 'login') {
+// Handle forgot password
+async function handleForgotPassword(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('login-email')?.value;
+    
+    if (!email) {
+        showError('Please enter your email address');
+        return;
+    }
+    
     try {
-        const result = await auth.signInWithPopup(googleProvider);
-        const user = result.user;
-        
-        // Check if user exists in database
-        const userRef = database.ref('users/' + user.uid);
-        const snapshot = await userRef.once('value');
-        
-        if (!snapshot.exists() && context === 'signup') {
-            // Create new user in database for signup
-            await createUserInDatabase(user);
-        } else if (!snapshot.exists()) {
-            // If user doesn't exist but trying to login, sign them out and show error
-            await auth.signOut();
-            showError('login', 'No account found with this Google email. Please sign up first.');
-            return;
-        } else {
-            // Update last login time for existing users
-            await userRef.update({
-                lastLogin: Date.now()
-            });
-        }
-        
+        await auth.sendPasswordResetEmail(email);
+        showSuccess('Password reset email sent. Please check your inbox.');
     } catch (error) {
-        console.error('Google auth error:', error);
-        showError(context, getAuthErrorMessage(error));
+        console.error('Password reset error:', error);
+        showError(getAuthErrorMessage(error));
     }
 }
 
@@ -207,61 +212,47 @@ async function signOut() {
     }
 }
 
-// Switch between login and signup forms
-function switchAuthForm(e, formType) {
-    e.preventDefault();
-    
-    // Update active tab
-    document.querySelectorAll('.auth-tab').forEach(tab => {
-        tab.classList.toggle('active', tab.dataset.tab === formType);
-    });
-    
-    // Show/hide forms
-    document.querySelectorAll('.auth-form').forEach(form => {
-        form.classList.toggle('active', form.id === `${formType}-form`);
-    });
-    
-    // Clear any error messages
-    document.querySelectorAll('.error-message').forEach(el => {
-        el.classList.remove('show');
-    });
-}
-
 // Show error message
-function showError(formType, message) {
-    const errorElement = document.createElement('div');
-    errorElement.className = 'error-message show';
-    errorElement.textContent = message;
-    
+function showError(message) {
     // Remove any existing error messages
-    const existingError = document.querySelector(`#${formType}-form .error-message`);
+    const existingError = document.querySelector('.error-message');
     if (existingError) {
         existingError.remove();
     }
     
+    const errorElement = document.createElement('div');
+    errorElement.className = 'error-message';
+    errorElement.textContent = message;
+    
     // Add new error message
-    const form = document.getElementById(`${formType}-form`);
+    const form = document.querySelector('form');
     if (form) {
         form.insertBefore(errorElement, form.firstChild);
+        // Trigger reflow
+        void errorElement.offsetWidth;
+        errorElement.classList.add('show');
     }
 }
 
 // Show success message
 function showSuccess(message) {
-    const successElement = document.createElement('div');
-    successElement.className = 'success-message show';
-    successElement.textContent = message;
-    
     // Remove any existing success messages
     const existingSuccess = document.querySelector('.success-message');
     if (existingSuccess) {
         existingSuccess.remove();
     }
     
+    const successElement = document.createElement('div');
+    successElement.className = 'success-message';
+    successElement.textContent = message;
+    
     // Add new success message
-    const activeForm = document.querySelector('.auth-form.active');
-    if (activeForm) {
-        activeForm.insertBefore(successElement, activeForm.firstChild);
+    const form = document.querySelector('form');
+    if (form) {
+        form.insertBefore(successElement, form.firstChild);
+        // Trigger reflow
+        void successElement.offsetWidth;
+        successElement.classList.add('show');
     }
 }
 
@@ -290,17 +281,10 @@ function getAuthErrorMessage(error) {
 }
 
 // Show authentication screen
-function showAuth(activeTab = 'login') {
+function showAuth() {
     if (authScreen) {
         authScreen.classList.remove('hidden');
-        appScreen.classList.add('hidden');
-        
-        // Show the requested tab
-        if (activeTab === 'signup') {
-            switchAuthForm({ preventDefault: () => {} }, 'signup');
-        } else {
-            switchAuthForm({ preventDefault: () => {} }, 'login');
-        }
+        if (appScreen) appScreen.classList.add('hidden');
     }
 }
 

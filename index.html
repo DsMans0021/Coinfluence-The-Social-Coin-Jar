@@ -7,92 +7,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-</head>
 <body>
     <div class="app">
         <!-- Auth Screen -->
         <div id="auth-screen" class="screen">
             <div class="auth-container">
-                <div class="auth-tabs">
-                    <button class="auth-tab active" data-tab="login">Login</button>
-                    <button class="auth-tab" data-tab="signup">Sign Up</button>
-                </div>
-                
-                <!-- Login Form -->
-                <div id="login-form" class="auth-form active">
+                <div class="auth-header">
                     <h1>Welcome Back!</h1>
                     <p>Login to continue to Coin Gambler</p>
-                    
-                    <form id="login-email-form">
-                        <div class="form-group">
-                            <label for="login-email">Email</label>
-                            <input type="email" id="login-email" placeholder="Enter your email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="login-password">Password</label>
-                            <input type="password" id="login-password" placeholder="Enter your password" required>
-                            <a href="#" class="forgot-password">Forgot password?</a>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form>
-                    
-                    <div class="divider">
-                        <span>or</span>
-                    </div>
-                    
-                    <button id="google-login" class="btn btn-google">
-                        <i class="fab fa-google"></i> Continue with Google
-                    </button>
-                    
-                    <p class="auth-switch">
-                        Don't have an account? <a href="#" id="show-signup">Sign up</a>
-                    </p>
                 </div>
                 
-                <!-- Signup Form -->
-                <div id="signup-form" class="auth-form">
-                    <h1>Create Account</h1>
-                    <p>Join Coin Gambler and start playing</p>
-                    
-                    <form id="signup-email-form">
-                        <div class="form-group">
-                            <label for="signup-username">Username</label>
-                            <input type="text" id="signup-username" placeholder="Choose a username" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="signup-email">Email</label>
-                            <input type="email" id="signup-email" placeholder="Enter your email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="signup-password">Password</label>
-                            <input type="password" id="signup-password" placeholder="Create a password" required>
-                            <small>Minimum 6 characters</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirm-password">Confirm Password</label>
-                            <input type="password" id="confirm-password" placeholder="Confirm your password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Create Account</button>
-                    </form>
-                    
-                    <div class="divider">
-                        <span>or</span>
+                <form id="login-email-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="Enter your email" required>
                     </div>
-                    
-                    <button id="google-signup" class="btn btn-google">
-                        <i class="fab fa-google"></i> Continue with Google
-                    </button>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
                     
                     <p class="auth-switch">
-                        Already have an account? <a href="#" id="show-login">Login</a>
+                        Don't have an account? <a href="signup.html">Create one</a>
                     </p>
-                </div>
+                </form>
             </div>
         </div>
 
         <!-- Main App -->
         <div id="app-screen" class="screen hidden">
-            <header class="app-header">
                 <div class="balance-container">
                     <i class="fas fa-coins"></i>
                     <span id="user-balance">0</span> coins
