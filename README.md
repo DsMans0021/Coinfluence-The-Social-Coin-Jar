@@ -1,129 +1,42 @@
-# 🎰 The Coiner - Multi-Game Gambling Platform
+# 🎰 Coin Gambler
 
-A comprehensive online gambling platform featuring multiple games, user accounts, and real-time gameplay. Built with Node.js, Express, and MongoDB for the backend, with a modern frontend using HTML5, CSS3, and vanilla JavaScript.
+A professional online coin flipping gambling game built with Firebase for real-time multiplayer functionality.
 
 ## 🚀 Features
 
-### 🎮 Games
-- **Coin Flip**: Classic 50/50 chance game
-- **Slots** (Coming Soon): Exciting slot machine gameplay
-- **Blackjack** (Coming Soon): Play against the dealer
-- **More Games**: Framework ready for additional games
-
-### 👤 User Features
-- **Secure Authentication**: Email/Password registration and login
-- **Free Play Mode**: Continue playing even when out of money
-- **Game History**: Track all your bets and results
-- **User Profile**: Manage your account and view statistics
-- **Leaderboard**: Compete with other players
-
-### 🛠️ Technical Features
-- **Real-time Gameplay**: Smooth animations and instant feedback
-- **Responsive Design**: Works on desktop and mobile devices
-- **Auto-cleanup**: Game history automatically clears after 12 hours
-- **Secure**: Protected API endpoints and data validation
+- **Secure Authentication**: Email/Password signup and login system
+- **Real-time Gameplay**: Instant coin flips with smooth animations
+- **Leaderboard**: Compete with players worldwide
+- **Game Statistics**: Track your wins, losses, and win rate
+- **Responsive Design**: Play on desktop or mobile devices
+- **Game History**: Review your past bets and results
+- **Secure Transactions**: Protected with Firebase Security Rules
 
 ## 🛠️ Technologies Used
 
-### Backend
-- **Runtime**: Node.js with Express
-- **Database**: MongoDB with Mongoose
-- **Authentication**: JWT (JSON Web Tokens)
-- **Scheduling**: node-cron for automated tasks
-
-### Frontend
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **Backend**: Firebase
+  - Firebase Authentication
+  - Firebase Realtime Database
+  - Firebase Hosting (recommended)
 - **UI Framework**: Tailwind CSS
-- **Icons**: Font Awesome
-- **Animations**: CSS3 and JavaScript
-- **State Management**: Vanilla JavaScript
+- **Animations**: CSS3 Animations
 
 ## 📝 Prerequisites
 
-- Node.js (v14 or later)
-- MongoDB (local or cloud instance)
 - Modern web browser (Chrome, Firefox, Safari, Edge)
-- npm or yarn package manager
+- Firebase account (for hosting and backend)
+- Node.js (optional, for local development)
 
 ## 🚀 Getting Started
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/yourusername/the-coiner.git
-cd the-coiner
-```
+### Option 1: Play Online
+1. Visit [Game URL] (after deployment)
+2. Create an account or log in
+3. Start playing!
 
-### 2. Install Dependencies
-```bash
-npm install
-# or
-yarn install
-```
-
-### 3. Set Up Environment Variables
-Create a `.env` file in the root directory with the following variables:
-```env
-PORT=5000
-MONGODB_URI=mongodb://localhost:27017/the-coiner
-JWT_SECRET=your-secret-key-here
-```
-
-### 4. Start the Development Server
-```bash
-npm start
-# or
-yarn start
-```
-
-### 5. Open in Browser
-Open `public/index.html` in your web browser or access via `http://localhost:5000` if using a local server.
-
-## 🎮 How to Play
-
-1. **Create an Account**
-   - Click "Sign Up" and fill in your details
-   - Verify your email (in a real production environment)
-
-2. **Deposit Funds**
-   - Start with $1,000 in demo money
-   - Use the "Add Funds" button to get more (demo only)
-
-3. **Choose a Game**
-   - Select from available games in the dashboard
-   - Place your bet and play!
-
-4. **Free Play Mode**
-   - If you run out of money, you'll automatically switch to free play mode
-   - In free play, you can continue playing without real money
-   - Win in free play to earn back into your real balance
-
-## 🔧 Project Structure
-
-```
-the-coiner/
-├── public/               # Frontend files
-│   ├── css/              # CSS files
-│   ├── js/               # JavaScript files
-│   └── index.html        # Main HTML file
-├── models/               # Database models
-│   ├── User.js           # User model
-│   └── GameHistory.js    # Game history model
-├── routes/               # API routes
-│   ├── auth.js           # Authentication routes
-│   ├── games.js          # Game-related routes
-│   └── users.js          # User-related routes
-├── utils/                # Utility functions
-│   └── cronJobs.js       # Scheduled tasks
-├── .env                  # Environment variables
-├── package.json          # Project configuration
-└── server.js             # Main server file
-```
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Built with ❤️ for educational purposes
-- Uses Tailwind CSS for styling
-- Icons by Font Awesome
+### Option 2: Local Development
+1. Clone the repository:
+   ```bash
+   git clone [your-repo-url]
+   cd coin-gambler
