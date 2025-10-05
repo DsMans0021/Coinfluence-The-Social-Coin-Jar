@@ -31,7 +31,7 @@ A professional online coin flipping gambling game built with Firebase for real-t
 ## 🚀 Getting Started
 
 ### Option 1: Play Online
-1. Visit [Game URL] (after deployment)
+1. Visit https://dsmans0021.me/The_Coiner/
 2. Create an account or log in
 3. Start playing!
 
