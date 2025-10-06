@@ -5,24 +5,24 @@ A modern, responsive online casino platform featuring coin-themed gambling games
 ![Coin Gambler Preview](https://github.com/DsMans0021/The_Coiner/blob/9e3935da35064e03d1be0e11243bcb75e3fc419d/Screenshot)  
 *Screenshot of the Coin Gambler platform*
 
-## ✨ Features
+##  Features
 
-- 🎮 **Multiple Games**
-  - 🪙 **Coin Flip**: Simple 50/50 chance game
-  - 🎲 **Dice Roll**: Predict the dice outcome
-  - 🎰 **Slots**: Classic slot machine experience
+-  **Multiple Games**
+  -  **Coin Flip**: Simple 50/50 chance game
+  -  **Dice Roll**: Predict the dice outcome
+  -  **Slots**: Classic slot machine experience
 
-- 👤 **User System**
-  - 🔐 Secure authentication with Firebase
-  - 📊 Track game statistics and history
-  - 💰 Virtual currency system
+-  **User System**
+  -  Secure authentication with Firebase
+  -  Track game statistics and history
+  -  Virtual currency system
 
-- 🎨 **Modern UI/UX**
-  - 🎨 Sleek, dark theme with gold accents
-  - 📱 Fully responsive design
-  - 🚀 Smooth animations and transitions
+-  **Modern UI/UX**
+  -  Sleek, dark theme with gold accents
+  -  Fully responsive design
+  -  Smooth animations and transitions
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -50,7 +50,7 @@ A modern, responsive online casino platform featuring coin-themed gambling games
      npx http-server
      ```
 
-## 🔧 Firebase Configuration
+##  Firebase Configuration
 
 ### Database Rules
 ```json
@@ -76,7 +76,7 @@ A modern, responsive online casino platform featuring coin-themed gambling games
 }
 ```
 
-## 🎮 Available Games
+##  Available Games
 
 ### 1. Coin Flip
 - Simple 50/50 chance game
@@ -131,17 +131,17 @@ The_Coiner/
 - **Themes**: Add new theme classes in `style.css`
 - **Game Rules**: Modify the game logic in respective JS files
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Firebase for the amazing backend services
 - Font Awesome for the beautiful icons
 - All open source libraries used in this project
 
-## 📧 Contact
+##  Contact
 
 For questions or feedback, please contact [medozizo008@gmail.com] or create an issue on GitHub.
 
