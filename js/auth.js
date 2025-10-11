@@ -1,53 +1,54 @@
-// DOM Elements
-const loginForm = document.getElementById('login-form');
-const registerForm = document.getElementById('register-form');
-const authMessage = document.getElementById('auth-message');
-const tabButtons = document.querySelectorAll('.tab-btn');
-const loginTab = document.querySelector('[data-tab="login"]');
-const registerTab = document.querySelector('[data-tab="register"]');
-const authScreen = document.getElementById('auth-screen');
-const mainApp = document.getElementById('main-app');
-const logoutBtn = document.getElementById('logout-btn');
+// Get all the elements we need for authentication
+const authElements = {
+    loginForm: document.getElementById('login-form'),
+    registerForm: document.getElementById('register-form'),
+    messageBox: document.getElementById('auth-message'),
+    tabs: document.querySelectorAll('.tab-btn'),
+    loginTab: document.querySelector('[data-tab="login"]'),
+    registerTab: document.querySelector('[data-tab="register"]'),
+    authScreen: document.getElementById('auth-screen'),
+    mainApp: document.getElementById('main-app'),
+    logoutBtn: document.getElementById('logout-btn')
+};
 
-// Tab switching
-tabButtons.forEach(button => {
+// Switch between login and register tabs
+authElements.tabs.forEach(button => {
     button.addEventListener('click', () => {
-        // Remove active class from all tabs
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-        // Add active class to clicked tab
+        // Update active tab styling
+        authElements.tabs.forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
         
-        // Show the corresponding form
-        if (button.dataset.tab === 'login') {
-            loginForm.classList.remove('hidden');
-            registerForm.classList.add('hidden');
-        } else {
-            loginForm.classList.add('hidden');
-            registerForm.classList.remove('hidden');
-        }
+        // Show the right form based on which tab was clicked
+        const showLogin = button.dataset.tab === 'login';
+        authElements.loginForm.classList.toggle('hidden', !showLogin);
+        authElements.registerForm.classList.toggle('hidden', showLogin);
         
-        // Clear any messages
-        authMessage.textContent = '';
-        authMessage.className = 'auth-message';
+        // Clear any previous messages
+        showAuthMessage('', 'info');
     });
 });
 
-// Login function
+// Handle user login
 const login = (email, password) => {
+    showAuthMessage('Signing you in...', 'info');
+    
     return auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
-            // Signed in successfully
+            // Welcome the user back
             const user = userCredential.user;
-            // Update last login time
+            
+            // Update their last login time
             return updateUserData(user.uid, {
-                lastLogin: Date.now()
+                lastLogin: Date.now(),
+                loginCount: firebase.firestore.FieldValue.increment(1)
             });
         })
         .then(() => {
-            // Hide auth screen and show main app
-            authScreen.classList.add('hidden');
-            mainApp.classList.remove('hidden');
-            // Load user data
+            // Switch to the main app
+            authElements.authScreen.classList.add('hidden');
+            authElements.mainApp.classList.remove('hidden');
+            
+            // Load their profile and data
             loadUserData();
         })
         .catch((error) => {

@@ -1,44 +1,52 @@
+// When the page loads, let's get everything ready
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM Elements
-    const homeBtn = document.getElementById('home-btn');
-    const gamesBtn = document.getElementById('games-btn');
-    const profileBtn = document.getElementById('profile-btn');
-    const playNowBtn = document.getElementById('play-now-btn');
-    const depositBtn = document.getElementById('deposit-btn');
-    const withdrawBtn = document.getElementById('withdraw-btn');
-    const confirmTransactionBtn = document.getElementById('confirm-transaction');
-    const transactionModal = document.getElementById('transaction-modal');
-    const closeModalBtn = document.querySelector('.close-btn');
+    // Grab all the important buttons and elements we'll need
+    const elements = {
+        homeBtn: document.getElementById('home-btn'),
+        gamesBtn: document.getElementById('games-btn'),
+        profileBtn: document.getElementById('profile-btn'),
+        playNowBtn: document.getElementById('play-now-btn'),
+        depositBtn: document.getElementById('deposit-btn'),
+        withdrawBtn: document.getElementById('withdraw-btn'),
+        confirmBtn: document.getElementById('confirm-transaction'),
+        transactionModal: document.getElementById('transaction-modal'),
+        closeModalBtn: document.querySelector('.close-btn')
+    };
     
-    // Game screens
-    const homeScreen = document.getElementById('home-screen');
-    const gamesScreen = document.getElementById('games-screen');
-    const profileScreen = document.getElementById('profile-screen');
-    const coinflipGame = document.getElementById('coinflip-game');
-    const diceGame = document.getElementById('dice-game');
-    const slotsGame = document.getElementById('slots-game');
+    // All the different screens in our app
+    const screens = {
+        home: document.getElementById('home-screen'),
+        games: document.getElementById('games-screen'),
+        profile: document.getElementById('profile-screen'),
+        coinflip: document.getElementById('coinflip-game'),
+        dice: document.getElementById('dice-game'),
+        slots: document.getElementById('slots-game')
+    };
     
-    // Navigation state
+    // Keep track of where the user is in the app
     let currentScreen = 'home';
     
-    // Initialize the app
+    // Set up the app when it first loads
     const initApp = () => {
-        // Check authentication state
+        // Check if someone is logged in
         auth.onAuthStateChanged((user) => {
+            const authScreen = document.getElementById('auth-screen');
+            const mainApp = document.getElementById('main-app');
+            
             if (user) {
-                // User is signed in
-                document.getElementById('auth-screen').classList.add('hidden');
-                document.getElementById('main-app').classList.remove('hidden');
+                // Welcome back! Let's get their data ready
+                authScreen.classList.add('hidden');
+                mainApp.classList.remove('hidden');
                 
-                // Load user data
+                // Load their profile and game progress
                 dbFunctions.loadUserData();
                 
-                // Initialize games
+                // Get the games ready to play
                 initGames();
             } else {
-                // User is signed out
-                document.getElementById('auth-screen').classList.remove('hidden');
-                document.getElementById('main-app').classList.add('hidden');
+                // No one's logged in, show the login screen
+                authScreen.classList.remove('hidden');
+                mainApp.classList.add('hidden');
             }
         });
         
